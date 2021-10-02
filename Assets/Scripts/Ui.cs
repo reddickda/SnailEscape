@@ -32,7 +32,6 @@ public class Ui : MonoBehaviour
     public void EnableMenu()
     {
         menuPanel.SetActive(true);
-
     }
 
     public void DisableMenu()

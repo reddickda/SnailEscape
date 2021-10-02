@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public event Action OnDead;
     public event Action OnPause;
     public bool paused;
+    int deadBoolHash;
     AudioSource scoreSound;
 
     private float timer;
@@ -34,6 +35,11 @@ public class PlayerController : MonoBehaviour
         rocketFire = GetComponentInChildren<ParticleSystem>();
         rocketFire.gameObject.SetActive(false);
         scoreSound = GetComponent<AudioSource>();
+    }
+
+    private void Awake()
+    {
+        deadBoolHash = Animator.StringToHash("isDead");
     }
 
     // Update is called once per frame
@@ -80,25 +86,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("collision");
-        if(collision.gameObject.tag == "obstacle")
-        {
-            //anim.enabled = false;
-            anim.SetBool("isDead", true);
-            OnDead();
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    Debug.Log("collision");
+    //    if(collision.gameObject.tag == "obstacle")
+    //    {
+    //        anim.SetBool("isDead", true);
+    //        OnDead();
+    //    }
+    //}
 
-            //set gamestate off
-        }
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("trigger");
         if (collision.gameObject.tag == "obstacle" || collision.gameObject.tag == "bird")
         {
-            //anim.enabled = false;
-
+            anim.SetTrigger("died");
+            anim.SetBool(deadBoolHash, true);
             OnDead();
             scoreText.text = "Score: " + 0;
             if (score > highScore)
@@ -109,11 +112,6 @@ public class PlayerController : MonoBehaviour
             }
             score = 0;
             timer = 0;
-            anim.SetTrigger("died");
-            anim.SetBool("isDead", true);
-
-
-            //set gamestate off
         }
         else if(collision.gameObject.tag == "scorecollider")
         {
