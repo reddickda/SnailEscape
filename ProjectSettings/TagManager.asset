@@ -9,6 +9,7 @@ TagManager:
   - scorecollider
   - coin
   - spawncollider
+  - bird
   layers:
   - Default
   - TransparentFX

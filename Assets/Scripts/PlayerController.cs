@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
         timerText = GameObject.Find("Timer").GetComponent<Text>();
         timerText.text = "";
         scoreText.text = "Score: 0";
-        highScoreText.text = "Highscore: 0";
+        highScore = PlayerPrefs.GetInt("highscore", highScore);
+        highScoreText.text = "Highscore: " + highScore.ToString(); ;
         anim = GetComponent<Animator>();
         //anim.enabled = false;
         rocketFire = GetComponentInChildren<ParticleSystem>();
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("trigger");
-        if (collision.gameObject.tag == "obstacle")
+        if (collision.gameObject.tag == "obstacle" || collision.gameObject.tag == "bird")
         {
             //anim.enabled = false;
 
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
             {
                 highScore = score;
                 highScoreText.text = "highscore: " + highScore;
+                PlayerPrefs.SetInt("highscore", highScore);
             }
             score = 0;
             timer = 0;

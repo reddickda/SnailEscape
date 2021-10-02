@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Background : MonoBehaviour
 {
@@ -9,17 +10,22 @@ public class Background : MonoBehaviour
     float coinProbability = 50;
     float obstancleProbablity = 50;
 
+    float timer = 0;
+
     public Obstacle[] allObstacles;
     public Coin[] allCoins;
+    public BirdScript[] allBirds;
 
     private void Start()
     {
         allObstacles = GetComponentsInChildren<Obstacle>(true);
         allCoins = GetComponentsInChildren<Coin>(true);
+        allBirds = GetComponentsInChildren<BirdScript>(true);
     }
 
     public void HandleUpdate()
     {
+        timer += Time.deltaTime;
         if (transform.position.x > -23.57)
         {
             transform.Translate(new Vector3(-3*Time.deltaTime, 0, 0));
@@ -27,6 +33,13 @@ public class Background : MonoBehaviour
         else
         {
             transform.position = respawnPos;
+        }
+        if(timer > 1)
+        {
+            for(int i = 0; i < allBirds.Length; i++)
+            {
+                allBirds[i].gameObject.SetActive(true);
+            }
         }
     }
 
