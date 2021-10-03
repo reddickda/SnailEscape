@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Background : MonoBehaviour
 {
-    Vector3 respawnPos = new Vector3(30.3f, 2.651025f, 0f);
+    Vector3 respawnPos = new Vector3(30.3f, 0f, 0f);
 
     float coinProbability = 50;
     float obstancleProbablity = 60;

@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
             timerText.text = Mathf.Round(timer * 1f).ToString();
             score += Mathf.RoundToInt(timer);
             scoreText.text = "Score " + score;
-            if (transform.position.y > 0.1)
+            if (transform.position.y > -2.65)
             {
                 anim.SetBool("Grounded", false);
             }
@@ -68,9 +68,8 @@ public class PlayerController : MonoBehaviour
             //anim.enabled = true;
             if (Input.GetKeyDown(KeyCode.Space) || isJumping)
             {
-                if (transform.position.y > 0)
+                if (transform.position.y > -2.65)
                 {
-                    Debug.Log("cant jump twice in a row");
                     anim.SetBool("Grounded", false);
                 }
                 else

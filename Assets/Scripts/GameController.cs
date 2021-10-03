@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField] GameObject player;
 
+    [SerializeField] LoopingBackground loopingBackground; 
+
     GameObject[] Backgrounds;
     GameObject[] Clouds;
 
@@ -45,7 +47,7 @@ public class GameController : MonoBehaviour
         if(state == GameState.play)
         {
             playerController.anim.SetFloat("Speed", 1f);
-
+            loopingBackground.HandleUpdate();
             ui.DisablePauseMenu();
             ui.DisableMenu();
             playerController.HandleUpdate();
