@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour
     public event Action OnPause;
     public bool paused;
     int deadBoolHash;
-    AudioSource scoreSound;
+    [SerializeField] AudioSource scoreSound;
+    [SerializeField] AudioSource rocketPack;
+    [SerializeField] AudioSource hitSound;
 
     private float timer;
     Text timerText;
@@ -28,7 +30,7 @@ public class PlayerController : MonoBehaviour
         timerText = GameObject.Find("Timer").GetComponent<Text>();
         timerText.text = "";
         scoreText.text = "Score: 0";
-        highScore = PlayerPrefs.GetInt("highscore", highScore);
+        highScore = PlayerPrefs.GetInt("highscore", 0);
         highScoreText.text = "Highscore: " + highScore.ToString(); ;
         anim = GetComponent<Animator>();
         //anim.enabled = false;
@@ -75,6 +77,7 @@ public class PlayerController : MonoBehaviour
                     transform.DOLocalJump(transform.position, 2f, 1, 1.5f);
                     anim.SetTrigger("Jump");
                     anim.SetBool("Grounded", true);
+                    rocketPack.Play();
                 }
             }
         }
@@ -112,6 +115,7 @@ public class PlayerController : MonoBehaviour
             }
             score = 0;
             timer = 0;
+            hitSound.Play();
         }
         else if(collision.gameObject.tag == "scorecollider")
         {
@@ -125,7 +129,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PlayFire()
     {
         rocketFire.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(.6f);
         rocketFire.gameObject.SetActive(false);
     }
 }

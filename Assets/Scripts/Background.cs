@@ -8,7 +8,7 @@ public class Background : MonoBehaviour
     Vector3 respawnPos = new Vector3(30.3f, 2.651025f, 0f);
 
     float coinProbability = 50;
-    float obstancleProbablity = 50;
+    float obstancleProbablity = 60;
 
     float timer = 0;
 
@@ -20,7 +20,7 @@ public class Background : MonoBehaviour
     {
         allObstacles = GetComponentsInChildren<Obstacle>(true);
         allCoins = GetComponentsInChildren<Coin>(true);
-        allBirds = GetComponentsInChildren<BirdScript>(true);
+        allBirds = Resources.FindObjectsOfTypeAll<BirdScript>();
     }
 
     public void HandleUpdate()
@@ -34,12 +34,17 @@ public class Background : MonoBehaviour
         {
             transform.position = respawnPos;
         }
-        if(timer > 1)
+        if(timer > 10)
         {
-            for(int i = 0; i < allBirds.Length; i++)
-            {
-                allBirds[i].gameObject.SetActive(true);
-            }
+            //for(int i = 0; i < allBirds.Length; i++)
+            //{
+            //    allBirds[i].gameObject.SetActive(true);
+            //}
+            allBirds[0].gameObject.SetActive(true);
+        }
+        if(timer > 20)
+        {
+            allBirds[1].gameObject.SetActive(true);
         }
     }
 

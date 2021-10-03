@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject player;
 
     GameObject[] Backgrounds;
+    GameObject[] Clouds;
+
 
     Coin[] coins;
 
@@ -32,6 +34,7 @@ public class GameController : MonoBehaviour
         ui.OnExit += ExitGame;
         ui.EnableMenu();
         Backgrounds = GameObject.FindGameObjectsWithTag("background");
+        Clouds = GameObject.FindGameObjectsWithTag("cloud");
         coins = Resources.FindObjectsOfTypeAll<Coin>();
     }
 
@@ -49,6 +52,11 @@ public class GameController : MonoBehaviour
             foreach (GameObject background in Backgrounds)
             {
                background.GetComponent<Background>().HandleUpdate();
+            }
+            foreach (GameObject cloud in Clouds)
+            {
+                cloud.GetComponent<Cloud>().HandleUpdate();
+
             }
             foreach (Coin c in coins)
             {
