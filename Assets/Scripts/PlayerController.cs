@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource scoreSound;
     [SerializeField] AudioSource rocketPack;
     [SerializeField] AudioSource hitSound;
+    bool isJumping;
 
     private float timer;
     Text timerText;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
         rocketFire = GetComponentInChildren<ParticleSystem>();
         rocketFire.gameObject.SetActive(false);
         scoreSound = GetComponent<AudioSource>();
+        isJumping = false;
     }
 
     private void Awake()
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Grounded", true);
             }
             //anim.enabled = true;
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || isJumping)
             {
                 if (transform.position.y > 0)
                 {
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
                     rocketPack.Play();
                 }
             }
+            isJumping = false;
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -89,6 +92,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnMouseDown()
+    {
+        isJumping = true;
+    }
     //private void OnCollisionEnter2D(Collision2D collision)
     //{
     //    Debug.Log("collision");

@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
     GameObject[] Clouds;
 
 
+
     Coin[] coins;
 
     void Start()
@@ -141,6 +142,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
 
     void ExitGame()
     {
