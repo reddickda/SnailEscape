@@ -5,39 +5,57 @@ using System.Linq;
 
 public class ObstacleHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    // TODO handle a list of obstacles on the screen and space them out a bit
-    // spawn when game starts despawn when game ends
-
-    public Obstacle[] obstacles;
-    float lastX;
     [SerializeField] GameObject obstacle;
+    [SerializeField] GameObject coin;
+    [SerializeField] Transform spawnLocation;
+    [SerializeField] Transform coinSpawnLocation;
+    [SerializeField] Transform lowCoinSpawnLocation;
+
+    float coinProbability = 60;
+
     GameObject lastSpawned;
+    private float timer;
+    public float timeBetweenSpawns = 2;
+    public float timeSinceLastSpawn;
+
+    Coin[] coins;
+    Obstacle[] obstacles;
     void Start()
     {
-        lastX = 11f;
+        timer = 0f;
     }
 
+    // have some logic for each type of mushroom... if 4 seconds between down spawn high, if two seconds spawn high
     public void HandleUpdate()
     {
-        if(lastSpawned == null)
+        coins = FindObjectsOfType<Coin>().Where(obj => obj.tag == "coin").ToArray();
+        obstacles = FindObjectsOfType<Obstacle>().Where(obj => obj.tag == "obstacle").ToArray();
+        timer += Time.deltaTime;
+        if (timer > timeBetweenSpawns)
         {
-            lastSpawned = GameObject.Find("Obstacle(Clone)");
-        }
-        int xSpawnRand = Random.Range(5, 10);
-        obstacles = FindObjectsOfType<Obstacle>().Where(obj => obj.name == "Obstacle(Clone)").ToArray();
-        if(obstacles.Length < 6)
-        {
-            Vector3 spawnPos = new Vector3(lastX + xSpawnRand, obstacle.transform.position.y, obstacle.transform.position.z);
-            if (spawnPos.x - lastSpawned.transform.position.x > 5)
+            timer = 0f;
+            Instantiate(obstacle, spawnLocation.position, Quaternion.identity, GameObject.Find("Spawnpoint").transform);
+            if (Random.Range(0, 100) < coinProbability) 
             {
-                lastSpawned = Instantiate(obstacle, spawnPos, Quaternion.identity, transform);
-                lastX = spawnPos.x;
+                if (Random.Range(0, 100) < coinProbability)
+                {
+                    Instantiate(coin, coinSpawnLocation.position, Quaternion.identity, GameObject.Find("CoinSpawnPoint").transform);
+                }
+                else
+                {
+                    Instantiate(coin, lowCoinSpawnLocation.position, Quaternion.identity, GameObject.Find("CoinSpawnPoint").transform);
+                }
+
             }
+            timeBetweenSpawns = Random.Range(2, 4);
+
         }
-        else
+        foreach(Coin coin in coins)
         {
-            lastX = 11f;
+            coin.HandleUpdate();
+        }foreach(Obstacle obs in obstacles)
+        {
+            obs.HandleUpdate();
         }
     }
 }

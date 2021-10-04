@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LoopingBackground : MonoBehaviour
 {
-    [Range(-1f, 1f)]
-    public float scrollSpeed = 0.5f;
+    [Range(-1f, 2f)]
+    public float scrollSpeed = 1.2f;
     private float offset;
     private Material mat;
 

@@ -16,12 +16,12 @@ public class GameController : MonoBehaviour
 
     [SerializeField] GameObject player;
 
-    [SerializeField] LoopingBackground loopingBackground; 
+    [SerializeField] LoopingBackground loopingBackground;
+
+    [SerializeField] ObstacleHandler handler;
 
     GameObject[] Backgrounds;
     GameObject[] Clouds;
-
-
 
     Coin[] coins;
 
@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
             ui.DisablePauseMenu();
             ui.DisableMenu();
             playerController.HandleUpdate();
-            //obstacleHandler.HandleUpdate();
+            handler.HandleUpdate();
             foreach (GameObject background in Backgrounds)
             {
                background.GetComponent<Background>().HandleUpdate();
@@ -61,10 +61,10 @@ public class GameController : MonoBehaviour
                 cloud.GetComponent<Cloud>().HandleUpdate();
 
             }
-            foreach (Coin c in coins)
-            {
-                c.HandleUpdate();
-            }
+            //foreach (Coin c in coins)
+            //{
+            //    c.HandleUpdate();
+            //}
         }
         if(state == GameState.stop)
         {
@@ -91,6 +91,8 @@ public class GameController : MonoBehaviour
         //StartCoroutine(WaitAfterGameOver());
         state = GameState.stop;
         playerController.anim.SetFloat("Speed", 0f);
+        playerController.bCollider2d.enabled = false;
+        DestroyAll();
     }
 
     IEnumerator WaitAfterGameOver()
@@ -104,6 +106,7 @@ public class GameController : MonoBehaviour
     {
         StartCoroutine(WaitToStart());
         state = GameState.play;
+        playerController.bCollider2d.enabled = true;
         playerController.anim.SetFloat("Speed", 1f);
         playerController.anim.SetBool("isDead", false);
     }
@@ -141,6 +144,23 @@ public class GameController : MonoBehaviour
             foreach (GameObject coin in coins)
             {
                 coin.SetActive(false);
+            }
+        }
+    }
+
+    void DestroyAll()
+    {
+        GameObject[] obstacles = FindObjectsOfType<GameObject>().Where(obj => obj.tag == "obstacle").ToArray();
+        GameObject[] coins = FindObjectsOfType<GameObject>().Where(obj => obj.tag == "coin").ToArray();
+        if (obstacles.Length > 0)
+        {
+            foreach (GameObject obj in obstacles)
+            {
+                Destroy(obj);
+            }
+            foreach (GameObject coin in coins)
+            {
+                Destroy(coin);
             }
         }
     }

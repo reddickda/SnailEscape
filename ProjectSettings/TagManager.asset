@@ -11,6 +11,8 @@ TagManager:
   - spawncollider
   - bird
   - cloud
+  - mobilecollider
+  - spawnpoint
   layers:
   - Default
   - TransparentFX

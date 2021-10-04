@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource rocketPack;
     [SerializeField] AudioSource hitSound;
     bool isJumping;
+    public BoxCollider2D bCollider2d;
 
     private float timer;
     Text timerText;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
         rocketFire.gameObject.SetActive(false);
         scoreSound = GetComponent<AudioSource>();
         isJumping = false;
+        bCollider2d = GetComponent<BoxCollider2D>();
     }
 
     private void Awake()
@@ -75,7 +77,7 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     StartCoroutine(PlayFire());
-                    transform.DOLocalJump(transform.position, 2f, 1, 1.5f);
+                    transform.DOLocalJump(transform.position, 2.5f, 1, 1.8f);
                     anim.SetTrigger("Jump");
                     anim.SetBool("Grounded", true);
                     rocketPack.Play();

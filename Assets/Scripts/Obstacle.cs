@@ -4,15 +4,16 @@ using UnityEngine;
 using System.Linq;
 public class Obstacle : MonoBehaviour
 {
-    Rigidbody2D rigidbody2d;
-    // Start is called before the first frame update
-    void Start()
-    {
-        rigidbody2d = GetComponent<Rigidbody2D>();
-    }
+    public float speed = 2.3f;
 
-    public void HandleUpdate ()
+    public void HandleUpdate()
     {
-
+        Vector3 left = Vector3.left;
+        Vector3 translation = left * Time.deltaTime * speed;
+        transform.Translate(translation);
+        if(transform.position.x < -100)
+        {
+            Destroy(gameObject);
+        }
     }
 }
