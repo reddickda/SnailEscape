@@ -11,7 +11,7 @@ public class ObstacleHandler : MonoBehaviour
     [SerializeField] Transform coinSpawnLocation;
     [SerializeField] Transform lowCoinSpawnLocation;
 
-    float coinProbability = 60;
+    float coinProbability = 75;
 
     GameObject lastSpawned;
     private float timer;
@@ -25,7 +25,7 @@ public class ObstacleHandler : MonoBehaviour
         timer = 0f;
     }
 
-    // have some logic for each type of mushroom... if 4 seconds between down spawn high, if two seconds spawn high
+    // have some logic for each type of mushroom having a coin spawn or two... if 4 seconds between down spawn high, if two seconds spawn high
     public void HandleUpdate()
     {
         coins = FindObjectsOfType<Coin>().Where(obj => obj.tag == "coin").ToArray();
@@ -37,7 +37,7 @@ public class ObstacleHandler : MonoBehaviour
             Instantiate(obstacle, spawnLocation.position, Quaternion.identity, GameObject.Find("Spawnpoint").transform);
             if (Random.Range(0, 100) < coinProbability) 
             {
-                if (Random.Range(0, 100) < coinProbability)
+                if (timeBetweenSpawns == 4)
                 {
                     Instantiate(coin, coinSpawnLocation.position, Quaternion.identity, GameObject.Find("CoinSpawnPoint").transform);
                 }
