@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public enum GameState { play, stop, pause, resume }
@@ -19,6 +20,11 @@ public class GameController : MonoBehaviour
     [SerializeField] LoopingBackground loopingBackground;
 
     [SerializeField] ObstacleHandler handler;
+
+    [SerializeField] LeaderboardHandler leaderboard;
+
+    [SerializeField] GameObject startPanel;
+    bool nameEntered = false;
 
     GameObject[] Backgrounds;
     GameObject[] Clouds;
@@ -39,6 +45,9 @@ public class GameController : MonoBehaviour
         Backgrounds = GameObject.FindGameObjectsWithTag("background");
         Clouds = GameObject.FindGameObjectsWithTag("cloud");
         coins = Resources.FindObjectsOfTypeAll<Coin>();
+        startPanel.gameObject.SetActive(true);
+        var button = startPanel.GetComponentInChildren<Button>();
+        button.onClick.AddListener(Enter);
     }
 
     // Update is called once per frame
@@ -68,7 +77,15 @@ public class GameController : MonoBehaviour
         }
         if(state == GameState.stop)
         {
-            ui.EnableMenu();
+            if(!nameEntered)
+            {
+
+            }
+            else
+            {
+                ui.EnableMenu();
+                startPanel.SetActive(false);
+            }
         }
         if(state == GameState.pause)
         {
@@ -89,6 +106,7 @@ public class GameController : MonoBehaviour
     void GameOver()
     {
         //StartCoroutine(WaitAfterGameOver());
+        //leaderboard.ConnectToPostgres();
         state = GameState.stop;
         playerController.anim.SetFloat("Speed", 0f);
         playerController.bCollider2d.enabled = false;
@@ -97,9 +115,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator WaitAfterGameOver()
     {
-        state = GameState.stop;
-        yield return new WaitForSeconds(2f);
-        playerController.anim.SetFloat("Speed", 0f);
+        yield return new WaitForSeconds(.2f);
     }
 
     void StartGame()
@@ -165,9 +181,30 @@ public class GameController : MonoBehaviour
         }
     }
 
-
     void ExitGame()
     {
         Application.Quit();
+    }
+
+    void Enter()
+    {
+        string name = startPanel.GetComponentInChildren<InputField>().text;
+        if (name.Length > 10 || name.Length < 1)
+        {
+            //show message enter valid name
+            StartCoroutine(ValidName());
+        }
+        else
+        {
+            nameEntered = true;
+        }
+    }
+
+    IEnumerator ValidName()
+    {
+        var text = startPanel.transform.Find("InvalidNameText");
+        text.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        text.gameObject.SetActive(false);
     }
 }

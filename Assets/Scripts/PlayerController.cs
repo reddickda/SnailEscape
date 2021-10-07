@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource hitSound;
     bool isJumping;
     public BoxCollider2D bCollider2d;
+    [SerializeField] LeaderboardHandler leaderboard;
+    // add input field for name
+    [SerializeField] InputField playerName;
 
     private float timer;
     Text timerText;
@@ -32,7 +35,7 @@ public class PlayerController : MonoBehaviour
         timerText = GameObject.Find("Timer").GetComponent<Text>();
         timerText.text = "";
         scoreText.text = "Score: 0";
-        highScore = PlayerPrefs.GetInt("highscore", 0);
+       // highScore = PlayerPrefs.GetInt("highscore", 0);
         highScoreText.text = "Highscore: " + highScore.ToString(); ;
         anim = GetComponent<Animator>();
         //anim.enabled = false;
@@ -119,7 +122,9 @@ public class PlayerController : MonoBehaviour
             {
                 highScore = score;
                 highScoreText.text = "highscore: " + highScore;
-                PlayerPrefs.SetInt("highscore", highScore);
+                //PlayerPrefs.SetInt("highscore", highScore);
+                //use name input field from start
+                leaderboard.AddHighScore(new LeaderboardScore(playerName.text, highScore));
             }
             score = 0;
             timer = 0;

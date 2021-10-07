@@ -10,7 +10,7 @@ public class Ui : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] Button startButton;
     [SerializeField] Button resumebutton;
-    [SerializeField] Button leaderBoardButton;
+    [SerializeField] LeaderboardHandler leaderBoard;
     [SerializeField] Button howToPlayButton;
     [SerializeField] Button exitButton;
     [SerializeField] GameObject menuPanel;
@@ -32,6 +32,7 @@ public class Ui : MonoBehaviour
     public void EnableMenu()
     {
         menuPanel.SetActive(true);
+        //leaderBoard.ConnectToPostgres();
     }
 
     public void DisableMenu()
