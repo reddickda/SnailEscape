@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Text scoreText;
-    [SerializeField] Text highScoreText;
+    //[SerializeField] Text highScoreText;
     public Animator anim;
     ParticleSystem rocketFire;
     int score = 0;
@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     bool isJumping;
     public BoxCollider2D bCollider2d;
     [SerializeField] LeaderboardHandler leaderboard;
+    [SerializeField] WebRequestLeaderboard webLeaderBoard;
     // add input field for name
     [SerializeField] InputField playerName;
 
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
         timerText.text = "";
         scoreText.text = "Score: 0";
        // highScore = PlayerPrefs.GetInt("highscore", 0);
-        highScoreText.text = "Highscore: " + highScore.ToString(); ;
+        //highScoreText.text = "Highscore: " + highScore.ToString(); ;
         anim = GetComponent<Animator>();
         //anim.enabled = false;
         rocketFire = GetComponentInChildren<ParticleSystem>();
@@ -121,10 +122,12 @@ public class PlayerController : MonoBehaviour
             if (score > highScore)
             {
                 highScore = score;
-                highScoreText.text = "highscore: " + highScore;
+                //highScoreText.text = "highscore: " + highScore;
                 //PlayerPrefs.SetInt("highscore", highScore);
                 //use name input field from start
-                leaderboard.AddHighScore(new LeaderboardScore(playerName.text, highScore));
+                StartCoroutine(webLeaderBoard.InsertScore(new LeaderboardScore(playerName.text, highScore)));
+
+                //leaderboard.AddHighScore(new LeaderboardScore(playerName.text, highScore));
             }
             score = 0;
             timer = 0;

@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField] LeaderboardHandler leaderboard;
 
+    [SerializeField] WebRequestLeaderboard webLeaderBoard;
+
     [SerializeField] GameObject startPanel;
     bool nameEntered = false;
 
