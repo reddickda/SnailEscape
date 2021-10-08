@@ -128,7 +128,7 @@ public class LeaderboardHandler : MonoBehaviour
                 string name = reader.GetString(0);
 
                 int s = reader.GetInt32(1);
-                Debug.Log(reader.GetString(0));
+                //Debug.Log(reader.GetString(0));
                 i++;
                 everyScoreFromLeaderboard.Add(new LeaderboardScore(name, s));
             }
